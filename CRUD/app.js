@@ -3,8 +3,7 @@
 //app=application
 // express api ko bnnane me help krta h, fast krta h...framework h (frame pr work krna)
 
-const connection = require('./db.js')
-const knex = require('knex')
+const sql = require('./db.js')
 const express = require("express")
 const Neetu = express()
 Neetu.use(express.json());
@@ -14,7 +13,7 @@ Neetu.get('/home', (req, res) => {
     var email = req.body.email
     var name = req.body.name
     console.log(id,name,email);
-    sql.query(`insert students values(${id},'${name}','${email}') `, (err, data) => {
+    sql.query(`select * from students(${id},'${name}','${email}') `, (err, data) => {
         if (data) {
             res.send('successfully')
         }
@@ -24,15 +23,6 @@ Neetu.get('/home', (req, res) => {
        
     })
     
-})
-Neetu.get('/get-data',(req, res)=>{
-    knex('students')
-    .then((data)=>{
-        res.send(data)
-        console.log(data)
-    }).catch((err)=>{
-        res.send(err)
-    })
 })
 
 // Neetu.get('/', (req, res) => {
