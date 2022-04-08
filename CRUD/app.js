@@ -13,7 +13,7 @@ Neetu.get('/home', (req, res) => {
     var email = req.body.email
     var name = req.body.name
     console.log(id,name,email);
-    sql.query(`select * from students(${id},'${name}','${email}') `, (err, data) => {
+    sql.query(`insert students values(${id},'${name}','${email}') `, (err, data) => {
         if (data) {
             res.send('successfully')
         }
