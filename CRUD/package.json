@@ -1,0 +1,17 @@
+{
+  "name": "srj.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "srj.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Neetu Sah",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "knex": "^1.0.4",
+    "mysql": "^2.18.1",
+    "sqlite3": "^5.0.2"
+  }
+}
