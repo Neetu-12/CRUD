@@ -1,43 +1,54 @@
-// express ek class hota h isme functions hota h, jske vjh se hm baar-2 bnnane ki jrurt n pre bnane ki(express k ander kisi ne bna rkha h already jo hum us krte h)
-//express yha require ho gya(means yha aa gya)
-//app=application
-// express api ko bnnane me help krta h, fast krta h...framework h (frame pr work krna)
+const express = require('express')
+const app = express()
+app.use(express.json())
+var connection = require('./appsql')
 
-const sql = require('./db.js')
-const express = require("express")
-const Neetu = express()
-Neetu.use(express.json());
+app.get('/', (req, res) => {
+    res.send('Welcome to homepage')
+    res.end()        
+})
+app.post('/',async(req, res) => {
+    console.log(req.body);
+    if (Object.values(req.body).length != 0) {
+        // console.log(req.body)
+        if (req.body.email) {
+            var email3=JSON.stringify(req.body.email)
+            connection.query(`select * from students where email=${email3};) `, (err, data) => {
+                if (data[0].length>0) {
+                    console.log(data);
+                    res.send('already exist')
 
-Neetu.get('/home', (req, res) => {
-    var id = req.body.id
-    var email = req.body.email
-    var name = req.body.name
-    console.log(id,name,email);
-    sql.query(`insert students values(${id},'${name}','${email}') `, (err, data) => {
-        if (data) {
-            res.send('successfully')
-        }
-        else {
-            res.send(err)
-        }
-       
-    })
+                }
+        
+                else if(err) {
+                    res.send(err)
+                }
+                else {
+                    var email1 = req.body.email
+                    // var password = req.body.password
+                    var name = req.body.name
+                    // console.log(name);
+                    connection.query(`insert students values("sahneetu754@gmail.com","neetu",12);`,(err,data)=>{
+                        if (data){
+                            res.send('successfully registered')
+                        }
+                        else{
+                            res.send("something went wrong")
+                        }
+                    })
+                }
+               
+            })
+            // connection.query(`select * from students where email=${email3};`,(err,data1)=>{console.log(data1)})
+            //     console.log(data1)
+            //     if (data1.length != 0) {
+            //         console.log(data1);
+            //         res.send('already exist')
     
+                // }
+        }
+    }
 })
-
-// Neetu.get('/', (req, res) => {
-//     res.send("Hello this is main page ")
-//     console.log(req.body);
-// })
-
-// Neetu.get('/about', (req, res) => {
-//     res.send("Hello this is about page")
-// })
-
-// Neetu.put('/contact', (req, res) => {
-//     res.send("Hello this is contact page")
-// })
-
-Neetu.listen(3000, () => {
-    console.log("hiii");
-})
+    .listen(8000, () => {
+        console.log("listen");
+    })
